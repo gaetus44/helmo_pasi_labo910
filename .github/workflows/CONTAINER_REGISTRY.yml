@@ -6,11 +6,11 @@ jobs:
     steps:
     - uses: actions/checkout@master
 
-    - run: docker build . -t helmolabo9.azurecr.io/helmolabo9:${{ github.sha }}
+    - run: docker build . -t helmolabo9.azurecr.io:${{ github.sha }}
       
     - uses: Azure/container-scan@v0
       with:
-        image-name: helmolabo9.azurecr.ioo/helmolabo9:${{ github.sha }}
+        image-name: helmolabo9.azurecr.io:${{ github.sha }}
     
     - uses: Azure/docker-login@v1
       with:
@@ -18,4 +18,4 @@ jobs:
         username: ${{ secrets.REGISTRY_USERNAME }}
         password: ${{ secrets.REGISTRY_PASSWORD }}
     
-    - run: docker push helmolabo9.azurecr.io/helmolabo9:${{ github.sha }}
+    - run: docker push helmolabo9.azurecr.io:${{ github.sha }}
