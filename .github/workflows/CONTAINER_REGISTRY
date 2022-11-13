@@ -1,4 +1,4 @@
-on: main
+on: [push]
 
 jobs:
   build-secure-and-push:
