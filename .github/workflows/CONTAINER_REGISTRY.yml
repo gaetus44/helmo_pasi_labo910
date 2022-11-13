@@ -1,3 +1,5 @@
+name: Docker Image CI + Vuln Check
+
 on: [push]
 
 jobs:
@@ -6,16 +8,16 @@ jobs:
     steps:
     - uses: actions/checkout@master
 
-    - run: docker build . -t helmolabo9.azurecr.io/home:${{ github.sha }}
-      
-    - uses: Azure/container-scan@v0
-      with:
-        image-name: helmolabo9.azurecr.io/home:${{ github.sha }}
+    - run: docker build . -t ${{ secrets.CONTAINER_REGISTRY }}/python3:${{ github.sha }}
     
     - uses: Azure/docker-login@v1
       with:
-        login-server: contoso.azurecr.io
+        login-server: ${{ secrets.CONTAINER_REGISTRY }}
         username: ${{ secrets.REGISTRY_USERNAME }}
         password: ${{ secrets.REGISTRY_PASSWORD }}
     
-    - run: docker push helmolabo9.azurecr.io/home:${{ github.sha }}
+    - run: docker push ${{ secrets.CONTAINER_REGISTRY }}/python3:${{ github.sha }}
+    
+    - uses: Azure/container-scan@v0
+      with:
+        image-name: ${{ secrets.CONTAINER_REGISTRY }}/python3:${{ github.sha }}
